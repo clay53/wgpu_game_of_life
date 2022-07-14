@@ -1,0 +1,47 @@
+[package]
+name = "wgpu_game_of_life"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+# bui = { path="../bui" }
+bui = { git = "https://github.com/clay53/bui", rev = "9496ba9" }
+# bui_basic = { path="../bui_basic" }
+bui_basic = { git = "https://github.com/clay53/bui_basic", rev = "fd2b052" }
+winit = { git = "https://github.com/rust-windowing/winit", rev = "c93ef47b9b05a561d8bfe85905cdfd38663b7c52" }
+futures = "0.3"
+log = "0.4"
+bytemuck = { version = "1.7", features = [ "derive" ] }
+
+[target.'cfg(target_arch="wasm32")'.dependencies]
+wgpu = { version = "0.13", features = ["webgl"]}
+wasm-bindgen = "0.2"
+console_error_panic_hook = "0.1"
+web-sys = "0.3"
+console_log = "0.2"
+
+[target.'cfg(not(target_arch="wasm32"))'.dependencies]
+wgpu = "0.13"
+
+[target.'cfg(not(any(target_os = "android", target_arch = "wasm32")))'.dependencies]
+dialog = "0.3.0"
+env_logger = "0.9"
+[target.'cfg(target_os = "android")'.dependencies]
+# ndk-glue = { version = "0.5.0", features = ["logger"] }
+ndk-glue = { git = "https://github.com/rust-windowing/android-ndk-rs", rev = "7e33384", features = ["logger"] }
+jni = "0.19"
+# ndk-context = "0.1.1"
+ndk-context = { git = "https://github.com/rust-windowing/android-ndk-rs", rev = "7e33384" }
+
+[package.metadata.android]
+package = "xyz.claytondoesthings.wgpu_game_of_life"
+# build_targets = [ "armv7-linux-androideabi", "aarch64-linux-android", "i686-linux-android", "x86_64-linux-android" ]
+apk_name = "WGPU Game of Life"
+
+[package.metadata.android.application]
+label = "WGPU Game of Life"
+
+[[package.metadata.android.uses_permission]]
+name = "android.permission.INTERNET"
